@@ -56,11 +56,13 @@ export const Post = ({
         </div>
       )}
       {imageUrl && (
-        <img
+       <div className="parrent-img">
+         <img
           className={clsx(styles.image, { [styles.imageFull]: isFullPost })}
           src={imageUrl}
           alt={title}
         />
+       </div>
       )}
       <div className={styles.wrapper}>
         <UserInfo {...user} additionalText={createdAt.slice(0, 16).replace(/T/gi, '  ')} />
