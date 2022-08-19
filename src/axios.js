@@ -1,9 +1,9 @@
 import axios from "axios";
 
-
+import { mainUrl } from './mainUrl'
 
 const instance = axios.create({
-    baseURL: 'http://localhost:4444'
+    baseURL: mainUrl
 });
 
 //middleware 
