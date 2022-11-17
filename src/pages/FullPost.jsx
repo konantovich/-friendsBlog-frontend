@@ -70,9 +70,9 @@ export const FullPost = () => {
         tags={data.tags}
         isFullPost
       >
-        <Typography>
+        <>
           <ReactMarkdown children={data.text} />
-        </Typography>
+        </>
       </Post>
       <CommentsBlock
         items= {isLoading ? [] : data}

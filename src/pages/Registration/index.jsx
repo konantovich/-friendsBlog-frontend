@@ -33,7 +33,7 @@ export const Registration = () => {
       formData.append("image", file); //conver image to formData
       const { data } = await axios.post("/upload/avatars", formData); //response image data
       setAvatarUrl(data.url);
-      console.log(data.url)
+
     } catch (error) {
       console.log(error);
       alert("error upload image", error);

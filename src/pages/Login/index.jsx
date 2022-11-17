@@ -31,7 +31,7 @@ export const Login = () => {
   const onSubmit = async (values) => { //if validations ok
    
     const data = await dispatch(fetchAuth(values))//login data from backend
-    console.log('data', data)
+
 
     if (!data.payload) { //if undefined
       return alert('error login', setError)
@@ -44,9 +44,9 @@ export const Login = () => {
 
   }
 
-  console.log(errors, isValid) //isValid say valid form or not. errors watch problems
+  // console.log(errors, isValid) //isValid say valid form or not. errors watch problems
 
-  console.log('isAuth', isAuth)
+  // console.log('isAuth', isAuth)
 
   if (isAuth) {//if login ok, got to main page
     return <Navigate to='/'/>

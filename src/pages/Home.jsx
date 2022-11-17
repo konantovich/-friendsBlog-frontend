@@ -33,7 +33,7 @@ export const Home = () => {
     dispatch(fetchTags());
 
      axios.get('/auth/me').then((res) =>{
-      console.log('/auth/me',res.data.userData)
+
       setUserData(res.data.userData)
     
      })
@@ -45,7 +45,7 @@ export const Home = () => {
      axios 
     .get(`/tag/${name}`) 
     .then((res) => {
-      console.log(res)
+
       setSortDatePosts(res.data)
     })
     .catch((err) => {
@@ -69,7 +69,7 @@ export const Home = () => {
   };
 
   const handleSortPopularPosts = () => {
-    console.log("postsSortsPopulare");
+
     axios
     .post(`/posts/${Math.random() * 10000}/popular`) 
     .then((res) => {
@@ -102,7 +102,7 @@ export const Home = () => {
         <Tab onClick={handleSortPopularPosts} label="Popular" index={1} value='1' />
       </TabList>
       </Box>
-      </TabContext>
+    </TabContext>
 
       <Grid container spacing={4}>
 
@@ -144,12 +144,7 @@ export const Home = () => {
                   tags={obj.tags}
                   isEditable={userData?._id === obj.user._id}//find user id if === post id, user see button edit
                 >
-                  {console.log(
-                    "userData?._id",
-                    userData?._id,
-                    "obj.user._id",
-                    obj.user._id
-                  )}
+                 
                 </Post>
               )
           )}

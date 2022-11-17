@@ -28,12 +28,16 @@ $blue: #ee43bb;
   }
 }
 
+.parrent-img{
+  top: 0;
+  display: block;
+}
 .image {
+  position: relative !important;
   width: 200px;
   height: 200px;
- 
 
-  object-fit:cover;
+  object-fit:contain;
 
   &Full {
     min-height: 100px;

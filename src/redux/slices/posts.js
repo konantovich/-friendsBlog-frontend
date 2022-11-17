@@ -25,7 +25,7 @@ export const fetchAddComment = createAsyncThunk(
   "posts/fetchAddComment",
   async (obj) => {
 
-    console.log('fetchAddComment',obj.id, obj.userData, obj.text)
+
     const { data } = await axios.patch(`/comment/${obj.id}`, {'user': obj.userData, 'text' : obj.text}) 
     
     return data
