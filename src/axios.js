@@ -3,8 +3,10 @@ import axios from "axios";
 import { mainUrl } from './mainUrl'
 
 const instance = axios.create({
-    baseURL: mainUrl
+    baseURL: mainUrl,
 });
+
+
 
 //middleware 
 //add in ALL request authorization field (need for save auth token)
