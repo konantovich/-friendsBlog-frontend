@@ -40,19 +40,18 @@ export const Login = () => {
                }
             );
 
-            const data =  dispatch(fetchGoogleAuthOrRegister(googleData.data));
-            console.log('googleData',data.requestId)
+            const data = await  dispatch(fetchGoogleAuthOrRegister(googleData.data));
 
             if (!data) {
 
               return alert('error login', setError);
            }
 
-           if ('requestId' in data) {
-            console.log('googleData',data.requestId)
+           if ('token' in data.payload) {
+            console.log('googleData',data)
               //if have login token on data.payload
-              window.localStorage.setItem('token', data.requestId); //save token in localStorage
-              dispatch(fetchAuth(data.requestId));
+              window.localStorage.setItem('token',  data.payload.token); //save token in localStorage
+
               // <Navigate to='/' />
               navigate('/')
            } else {
@@ -159,7 +158,8 @@ export const Login = () => {
                Login
             </Button>
          </form>
-         <GoogleLogin onSuccess={responseGoogle} onError={responseGoogle} />;
+         <GoogleLogin onSuccess={responseGoogle} onError={responseGoogle} >
+            </GoogleLogin>;
       </Paper>
    );
 };

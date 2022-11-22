@@ -35,6 +35,9 @@ export const AddPost = () => {
       const file = event.target.files[0]; 
       formData.append("image", file);
       const { data } = await axios.post("/upload", formData);
+      if (!data) {
+        setImageUrl(data.url);
+      }
       setImageUrl(data.url);
     } catch (error) {
 
@@ -63,6 +66,10 @@ export const AddPost = () => {
         text,
       };
 
+      if (!imageUrl) {
+        setImageUrl('http://localhost:4444/uploads/image-1669136369778-475062336.png')
+      }
+
       const { data } = isEditing //add or edit post
           ? await axios.patch(`/posts/${id}`, fields) 
           : await axios.post("/posts", fields); 
@@ -71,7 +78,7 @@ export const AddPost = () => {
 
       navigate(`/posts/${_id}`); 
     } catch (error) {
-      console.warn("Post didnt add post", error);
+      console.warn("Post didn't added", error);
       alert("error adding post. Need minimum 3 symbols");
     }
   };
@@ -81,6 +88,7 @@ export const AddPost = () => {
       axios
         .get(`/posts/${id}`)
         .then((res) => {
+
           setTitle(res.data.title);
           setText(res.data.text);
           setTags(res.data.tags.join(",")); //Array => string

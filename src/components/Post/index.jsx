@@ -8,6 +8,9 @@ import CommentIcon from "@mui/icons-material/ChatBubbleOutlineOutlined";
 import { Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
 
+
+import { mainUrl } from '../../mainUrl'
+
 import styles from "./Post.module.scss";
 import { UserInfo } from "../UserInfo";
 import { PostSkeleton } from "./Skeleton";
@@ -57,9 +60,10 @@ export const Post = ({
       )}
       {imageUrl && (
        <div className="parrent-img">
+     
          <img
           className={clsx(styles.image, { [styles.imageFull]: isFullPost })}
-          src={imageUrl}
+          src={mainUrl +imageUrl}
           alt={title}
         />
        </div>

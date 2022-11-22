@@ -129,7 +129,7 @@ export const Home = () => {
                         id={obj._id}
                         title={obj.title}
                         imageUrl={
-                           obj.imageUrl ? `${mainUrl}${obj.imageUrl}` : ''
+                           obj.imageUrl ? `${obj.imageUrl}` : ''
                         }
                         user={obj.user}
                         createdAt={obj.createdAt}

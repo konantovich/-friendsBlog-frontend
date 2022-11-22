@@ -6,7 +6,8 @@ import { mainUrl } from '../../mainUrl'
 export const UserInfo = ({ avatarUrl, fullName, additionalText }) => {
   return (
     <div className={styles.root}>
-      <img className={styles.avatar} src={avatarUrl ? mainUrl+avatarUrl : '/noavatar.png'} alt={fullName} />
+      {console.log('avatarUrl', avatarUrl.indexOf(0, 3))}
+      <img className={styles.avatar} src={avatarUrl.charAt() === 'h' ? avatarUrl : mainUrl + avatarUrl} alt={fullName} />
       <div className={styles.userDetails}>
         <span className={styles.userName}>{fullName}</span>
         <span className={styles.additional}>{additionalText}</span>
