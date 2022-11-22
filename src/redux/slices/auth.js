@@ -24,6 +24,12 @@ export const fetchRegister = createAsyncThunk('auth/fetchRegister', async (param
 })
 
 
+export const fetchGoogleAuthOrRegister= createAsyncThunk('auth/googleauth', async (params) => {
+    const { data } = await axios.post('/auth/googleauth', params); 
+
+    return data  
+})
+
 const initialState = {
     data: null, //user info
     status: 'loading',
@@ -75,6 +81,20 @@ const authSlice = createSlice({
             state.status = 'loaded'
         },
         [fetchRegister.rejected]: (state) => { 
+            state.items = null 
+            state.status = 'error' 
+        },
+
+        [fetchGoogleAuthOrRegister.pending]: (state) => { 
+            state.status = 'loading' 
+            state.data = null;
+
+        },
+        [fetchGoogleAuthOrRegister.fulfilled]: (state, action) => {
+            state.data = action.payload
+            state.status = 'loaded'
+        },
+        [fetchGoogleAuthOrRegister.rejected]: (state) => { 
             state.items = null 
             state.status = 'error' 
         },

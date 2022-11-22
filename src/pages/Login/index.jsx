@@ -6,30 +6,83 @@ import Button from '@mui/material/Button';
 import { useForm } from 'react-hook-form'; //react forms
 import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
-import jwt_decode from "jwt-decode";
+import jwt_decode from 'jwt-decode';
+import { GoogleLogin, useGoogleLogin } from '@react-oauth/google';
+
+import { useNavigate } from "react-router-dom";
 
 import styles from './Login.module.scss';
-import { fetchAuth, selectIsAuth } from '../../redux/slices/auth';
+import {
+   fetchAuth,
+   selectIsAuth,
+   fetchRegister,
+   fetchGoogleAuthOrRegister
+} from '../../redux/slices/auth';
 import { Navigate } from 'react-router-dom';
 
 import axios from '../../axios';
+import { createAwait } from 'typescript';
 
 export const Login = () => {
    const isAuth = useSelector(selectIsAuth);
    const dispatch = useDispatch();
+   const navigate = useNavigate();
 
-   const handleClickGoogleAuth = () => {
-      axios
-         .get('/auth/google', {withCredentials: true})
-         .then((response) => {
-            console.log(response);
-            
-            <Navigate to='/' />;
-         })
-         .catch((error) => {
-            console.log(error);
-         });
-   };
+   const responseGoogle = useGoogleLogin({
+      onSuccess: async (response) => {
+         try {
+            const googleData = await axios.get(
+               'https://www.googleapis.com/oauth2/v3/userinfo',
+               {
+                  headers: {
+                     Authorization: `Bearer ${response.access_token}`
+                  }
+               }
+            );
+
+            const data =  dispatch(fetchGoogleAuthOrRegister(googleData.data));
+            console.log('googleData',data.requestId)
+
+            if (!data) {
+
+              return alert('error login', setError);
+           }
+
+           if ('requestId' in data) {
+            console.log('googleData',data.requestId)
+              //if have login token on data.payload
+              window.localStorage.setItem('token', data.requestId); //save token in localStorage
+              dispatch(fetchAuth(data.requestId));
+              // <Navigate to='/' />
+              navigate('/')
+           } else {
+              alert('failed to login!');
+           }
+ 
+         } catch (e) {
+            console.log(e);
+         }
+      }
+   });
+
+   // console.log('response', credentialResponse);
+
+   // var decoded = jwt_decode(credentialResponse.credential);
+
+   // axios
+   //    .get( {
+   //     headers: {
+   //       "Autorization": "Bearer"
+   //     }
+   //    })
+   //    .then((response) => {
+   //       console.log(response);
+
+   //       // <Navigate to='/' />;
+   //    })
+   //    .catch((error) => {
+   //       console.log('error', error);
+   //    });
 
    //...register - register login/pass fields
    //useForm have state
@@ -106,7 +159,7 @@ export const Login = () => {
                Login
             </Button>
          </form>
-         <Button onClick={handleClickGoogleAuth}>Google Login</Button>
+         <GoogleLogin onSuccess={responseGoogle} onError={responseGoogle} />;
       </Paper>
    );
 };
