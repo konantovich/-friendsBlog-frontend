@@ -9,7 +9,7 @@ import { useSelector } from 'react-redux';
 import jwt_decode from 'jwt-decode';
 import { GoogleLogin, useGoogleLogin } from '@react-oauth/google';
 
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from 'react-router-dom';
 
 import styles from './Login.module.scss';
 import {
@@ -40,24 +40,24 @@ export const Login = () => {
                }
             );
 
-            const data = await  dispatch(fetchGoogleAuthOrRegister(googleData.data));
+            const data = await dispatch(
+               fetchGoogleAuthOrRegister(googleData.data)
+            );
 
             if (!data) {
+               return alert('error login', setError);
+            }
 
-              return alert('error login', setError);
-           }
+            if ('token' in data.payload) {
+               console.log('googleData', data);
+               //if have login token on data.payload
+               window.localStorage.setItem('token', data.payload.token); //save token in localStorage
 
-           if ('token' in data.payload) {
-            console.log('googleData',data)
-              //if have login token on data.payload
-              window.localStorage.setItem('token',  data.payload.token); //save token in localStorage
-
-              // <Navigate to='/' />
-              navigate('/')
-           } else {
-              alert('failed to login!');
-           }
- 
+               // <Navigate to='/' />
+               navigate('/');
+            } else {
+               alert('failed to login!');
+            }
          } catch (e) {
             console.log(e);
          }
@@ -158,8 +158,19 @@ export const Login = () => {
                Login
             </Button>
          </form>
-         <GoogleLogin onSuccess={responseGoogle} onError={responseGoogle} >
-            </GoogleLogin>;
+
+         <div className={styles.googlebtn} onClick={responseGoogle}>
+            <div className={styles.googleiconwrapper}>
+               <img
+                  class={styles.googleicon}
+                  src='https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg'
+                  alt=''
+               />
+            </div>
+            <p className={styles.btntext}>
+               <b>Sign in with google</b>
+            </p>
+         </div>
       </Paper>
    );
 };
